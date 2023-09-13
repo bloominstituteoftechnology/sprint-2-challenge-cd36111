@@ -28,7 +28,6 @@
     #outcome {
       font-size: 3rem;
     }
-
   </style>
 </head>
 
@@ -72,10 +71,49 @@
     // ❗ Do not modify the location of the two script tags in this document
     // ❗ Debug properly using the Console
 
+
+
     // 👉 CHALLENGE 1
-    function profileActivation() {
+    function profileActivation(profile, reason) {
+      let active = profile.active
+      if (active === undefined) {
+        return "impossible to ascertain status"
+      }
+      if (active === true && reason === undefined) {
+        return "confirm status manually"
+      }
+
+
+      if (active === false && profile.reason === undefined) {
+        return "confirm status manually"
+
+      }
+      if (active === true) {
+        profile.active = false
+        profile.reason = reason
+        return profile
+      }
+      if (active === false) {
+        profile.active = true
+        delete profile.reason
+        return profile
+
+      }
+
+
+
+    }
+    function checkProfileStatus(profile) {
+
+
+
+
+
+    }
+
+    {
       // 🧠 profileActivation takes two arguments, profile and reason, which are an object and a string respectively
-      //  The reason arg is only used -and therefore required- to deactivate profiles, not to activate them
+      //  The reason arg is only used and therefore required to deactivate profiles, not to activate them
       //  The profile arg has an `active` property holding a Boolean value
       //    * If profile is active, profileActivation deactivates it and writes a `reason` prop holding the reason
       //    * If profile is inactive, profileActivation activates it and deletes the `reason` prop from the object
@@ -87,8 +125,23 @@
       // 🌟 HINT: to confirm the existence of a prop, check that its value is not undefined
     }
 
+
     // 👉 CHALLENGE 2
-    function mineSweeper() {
+    function mineSweeper(grid, x, y) {
+      if (y < 1 || y > 3 || x < 1 || x > 3) {
+        return "invalid coordinates"
+
+      }
+       if (grid[y - 1][x - 1] === "🟦") {
+          return "🟦 🥳"
+       } else {
+        return "🟥 💀"
+       }
+        
+      
+      
+
+      }
       // 🧠 mineSweeper takes a grid as its first argument, and coordinates x and y as the second and third args
       //  The grid is an array of arrays in the following format: [["🟥","🟦","🟥"],["🟦","🟥","🟥"],["🟥","🟦","🟦"]]
       //  Each subarray is a row of the grid, the first subarray being the top row:
@@ -107,49 +160,96 @@
       //    * If the player lands on blue, return the string "🟦 🥳"
       // 🧠 Edge cases:
       //    * If the x or y coordinates are under 1 or over 3, return the string "invalid coordinates"
-    }
+    
 
     // 👉 CHALLENGE 3
-    function booleanize() {
-      // 🧠 booleanize takes an object as its single argument, which can have any number of properties
-      // Loop over the properties and then return the object, after applying the following transformations:
-      //    * If a value is the number zero, it must be transformed into the Boolean false
-      //    * If a value is the number one, it must be transformed into the Boolean true
-      //    * If a value is null, the whole key-value pair must be deleted from the object
-      // 🧠 Edge cases:
-      //    * If a property name exceeds 9 characters, return the string "shorten all prop names to 9 chars or less"
-      // 🌟 HINT: careful not to perform any unintended changes on the object
+    function booleanize(obj) {
+      const newObj = {}
+      for (const prop in obj) {
+    if (prop.length > 9) {
+      return "shorten all prop names to 9 chars or less";
     }
+
+    const value = obj[prop];
+
+    if (value === 0) {
+      newObj[prop] = false;
+    } else if (value === 1) {
+      newObj[prop] = true;
+    } else if (value !== null) {
+      newObj[prop] = value;
+    }
+    
+  }
+
+  return newObj;
+     }
+    // 🧠 booleanize takes an object as its single argument, which can have any number of properties
+    // Loop over the properties and then return the object, after applying the following transformations:
+    //    * If a value is the number zero, it must be transformed into the Boolean false
+    //    * If a value is the number one, it must be transformed into the Boolean true
+    //    * If a value is null, the whole key-value pair must be deleted from the object
+    // 🧠 Edge cases:
+    //    * If a property name exceeds 9 characters, return the string "shorten all prop names to 9 chars or less"
+    // 🌟 HINT: careful not to perform any unintended changes on the object
+
 
     // 👉 CHALLENGE 4
-    function scrub() {
-      // 🧠 scrub takes a string "text" as its first argument, and an array of forbidden words "forbidden" as its second
-      // Any word in the text included in the array of forbidden words is replaced with a word of equal length but made of lowcase "x"
-      // The scrubbed text is then returned from the function, as seen in the examples below
-      // No punctuation is used in the text
-      // 🧠 Examples of usage:
-      //    scrub("out of the silent planet", ["of", "silent"]) // returns "out xx the xxxxxx planet"
-      //    scrub("the ghost of the navigator", ["the"]) // returns "xxx ghost of xxx navigator"
-      //    scrub("lost somewhere in time", []) // returns "lost somewhere in time"
-      //    scrub("aces high", ["high", "aces", "hearts"]) // returns "xxxx xxxx"
-      //    scrub("", ["high", "aces""]) // returns ""
-      // 🌟 HINT: useful array methods to use are `push`, `indexOf`, `split`, `join`
+    function scrub(text, forbidden) {
+      const words = text.split(" ");
+  const scrubbedWords = words.map((word) => {
+    if (forbidden.includes(word)) {
+      
+      return "x".repeat(word.length);
+    } else {
+      return word;
     }
+  });
+
+  const scrubbedText = scrubbedWords.join(" ");
+
+  return scrubbedText;
+}
+    
+    // 🧠 scrub takes a string "text" as its first argument, and an array of forbidden words "forbidden" as its second
+    // Any word in the text included in the array of forbidden words is replaced with a word of equal length but made of lowcase "x"
+    // The scrubbed text is then returned from the function, as seen in the examples below
+    // No punctuation is used in the text
+    // 🧠 Examples of usage:
+    //    scrub("out of the silent planet", ["of", "silent"]) // returns "out xx the xxxxxx planet"
+    //    scrub("the ghost of the navigator", ["the"]) // returns "xxx ghost of xxx navigator"
+    //    scrub("lost somewhere in time", []) // returns "lost somewhere in time"
+    //    scrub("aces high", ["high", "aces", "hearts"]) // returns "xxxx xxxx"
+    //    scrub("", ["high", "aces""]) // returns ""
+    // 🌟 HINT: useful array methods to use are `push`, `indexOf`, `split`, `join`
+
 
     // 👉 CHALLENGE 5
-    function normalizePhoneNumber() {
-      // 🧠 normalizePhoneNumber takes a string as its only argument, representing a ten-digit number
-      // The function returns a string formatted as seen below
-      // 🧠 Examples of usage:
-      // normalizePhoneNumber("9876543210") // returns "(987) 654-3210"
-      // normalizePhoneNumber("1111111111") // returns "(111) 111-1111"
-      // 🧠 Edge cases:
-      //   * If the argument is of an incorrect length, return the string "type a 10-digit number"
-      //   * If the argument is of the correct length but any character is not an integer between 0 and 9, return "invalid phone number"
-      // 🌟 HINT: instead of looping over the number's digits, loop backwards over a template "(XXX) XXX-XXXX"
-      // 🌟 HINT: at each iteration, if the current character is an "X", replace it with the result of popping a digit from the number
-      // 🌟 HINT: if you'd rather loop forwards, use `shift` instead of `pop`
-    }
+    function normalizePhoneNumber(number) {
+      console.log(number)
+      if (number.length !== 10) {
+        return "type a 10-digit number"
+      }
+       if (isNaN(number)) {
+        return "invalid phone number"
+       }
+       // let first = number.slice(0, 3)
+
+      return `(${number.slice(0, 3)}) ${number.slice(3, 6)}-${number.slice(6,)}`
+      }
+    
+    // 🧠 normalizePhoneNumber takes a string as its only argument, representing a ten-digit number
+    // The function returns a string formatted as seen below
+    // 🧠 Examples of usage:
+    // normalizePhoneNumber("9876543210") // returns "(987) 654-3210"
+    // normalizePhoneNumber("1111111111") // returns "(111) 111-1111"
+    // 🧠 Edge cases:
+    //   * If the argument is of an incorrect length, return the string "type a 10-digit number"
+    //   * If the argument is of the correct length but any character is not an integer between 0 and 9, return "invalid phone number"
+    // 🌟 HINT: instead of looping over the number's digits, loop backwards over a template "(XXX) XXX-XXXX"
+    // 🌟 HINT: at each iteration, if the current character is an "X", replace it with the result of popping a digit from the number
+    // 🌟 HINT: if you'd rather loop forwards, use `shift` instead of `pop`
+
 
     // 👉 CHALLENGE 6 (bonus, NOT graded)
     function diceRolls() {
